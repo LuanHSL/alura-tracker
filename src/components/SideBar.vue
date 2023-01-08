@@ -3,6 +3,9 @@
     <h1>
       <img src="../assets/logo.svg" alt="logo">
     </h1>
+    <button class="button" @click="handleChangeTheme">
+      {{ textButton }}
+    </button>
   </header>
 </template>
 
@@ -11,6 +14,23 @@ import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'SideBar',
+  emits: ['when-changed-theme'],
+  data() {
+    return {
+      isActiveDarkMode: false,
+    };
+  },
+  computed: {
+    textButton() {
+      return this.isActiveDarkMode ? 'Desativar modo escuro' : 'Ativar modo escuro';
+    },
+  },
+  methods: {
+    handleChangeTheme() {
+      this.isActiveDarkMode = !this.isActiveDarkMode;
+      this.$emit('when-changed-theme', this.isActiveDarkMode);
+    },
+  }
 });
 </script>
 
@@ -20,6 +40,7 @@ header {
   background: #0d3d66;
   width: 100%;
   height: 100vh;
+  text-align: center;
 }
 h1 > img {
   width: 10rem;
