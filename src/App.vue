@@ -11,6 +11,9 @@
           :key="index"
           :task="task"
         />
+        <Box v-if="isEmptyTaskList">
+          Você não está muito produtivo hoje :(
+        </Box>
       </div>
     </div>
   </main>
@@ -21,6 +24,7 @@ import { defineComponent, defineAsyncComponent } from 'vue';
 const SideBar = defineAsyncComponent(() => import('./components/SideBar.vue'));
 const Form = defineAsyncComponent(() => import('./components/Form.vue'));
 const Task = defineAsyncComponent(() => import('./components/Task.vue'));
+const Box = defineAsyncComponent(() => import('./components/Box.vue'));
 
 import type ITask from './interfaces/ITask';
 
@@ -30,11 +34,17 @@ export default defineComponent({
     SideBar,
     Form,
     Task,
+    Box,
   },
   data() {
     return {
       taskList: [] as ITask[],
     };
+  },
+  computed: {
+    isEmptyTaskList(): boolean {
+      return this.taskList.length === 0;
+    },
   },
   methods: {
     saveTask(task: ITask) {
